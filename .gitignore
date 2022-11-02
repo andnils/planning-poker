@@ -1,0 +1,14 @@
+target/
+.nrepl-port
+.lein-repl-history
+.idea/
+*.iml
+scratch.clj
+
+.DS_Store
+.nrepl-history
+.cpcache/
+
+/ui/node_modules/
+/ui/dist/
+/ui/.parcel-cache/
