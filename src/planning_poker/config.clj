@@ -12,4 +12,5 @@
 
 (comment
   (edn/read-string (slurp (io/resource "config.edn")))
+  (read-config "config.edn")
   )

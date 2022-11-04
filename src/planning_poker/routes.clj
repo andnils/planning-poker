@@ -2,7 +2,12 @@
   (:require [ataraxy.core :as ataraxy]))
 
 
-
+"
+ POST /newboard
+ -> /board/xyz678
+ POST /board/xyz678/newuser?name=nisse
+ 
+"
 
 (def routes '{"/foo" [:foo]})
 
