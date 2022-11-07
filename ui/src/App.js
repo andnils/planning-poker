@@ -1,12 +1,29 @@
+import { useState, useEffect} from 'react';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { Player } from "./Player/Player.js";
-import style from "./App.module.css";
+import * as style from "./App.module.css";
 
-export function App() {
+export function App({ roomId, name }) {
+  const socketUrl = `ws://${location.host}/api/ws/${roomId}/${name}`;
+
+  const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+
+  const appState = lastMessage ? JSON.parse(lastMessage.data) : [];
+
+  console.dir(lastMessage);
+
+  const connectionStatus = {
+    [ReadyState.CONNECTING]: 'Connecting',
+    [ReadyState.OPEN]: 'Open',
+    [ReadyState.CLOSING]: 'Closing',
+    [ReadyState.CLOSED]: 'Closed',
+    [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+  }[readyState];
+
+
   return (
     <div className={style.board}>
-      <Player name="Sven" vote="8"/>
-      <Player name="Kalle"vote="12" />
-      <Player name="Klas-Göran..."vote="123" />
+      { appState.map(player => <Player key={player.name} name={player.name} vote={player.vote} />)}
     </div>
   );
 }

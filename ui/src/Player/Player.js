@@ -1,4 +1,4 @@
-import style from "./Player.module.css";
+import * as style from "./Player.module.css";
 
 export function Player({ name, vote }) {
 

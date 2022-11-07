@@ -12,3 +12,5 @@ scratch.clj
 /ui/node_modules/
 /ui/dist/
 /ui/.parcel-cache/
+
+/resources/public/
