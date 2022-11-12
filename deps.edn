@@ -12,5 +12,5 @@
                      :exec-fn hf.depstar/uberjar
                      :exec-args {:aot true
                                  :jar build/app.jar
-                                 :main-class planning-poker/main}}}
+                                 :main-class planning-poker.main}}}
  }

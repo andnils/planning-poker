@@ -68,7 +68,6 @@
     (with-channel request channel
       (connect! channel room name)
       (on-close channel (partial disconnect! channel room name))
-      ;; TODO: behvöver hantera olika typer av msg: vote och reset...räcker det?
       (on-receive channel receive-ws-msg))))
 
 
@@ -76,9 +75,7 @@
   (GET "/api/ok" [] (resp/response "OK"))
   (GET "/api/ws/:room/:name" [] handler)
   (resources "/")
-  (GET "*" req (assoc-in (ring.util.response/resource-response "/public/index.html") [:headers "Content-Type"] "text/html"))
-  ;(not-found "<p>Page not found.</p>")
-  )
+  (GET "*" req (assoc-in (ring.util.response/resource-response "/public/index.html") [:headers "Content-Type"] "text/html")))
 
 
 
@@ -86,8 +83,6 @@
 
 (defn stop-server []
   (when-not (nil? @server)
-    ;; graceful shutdown: wait 100ms for existing requests to be finished
-    ;; :timeout is optional, when no timeout, stop immediately
     (@server :timeout 100)
     (reset! server nil)))
 
@@ -102,18 +97,9 @@
 
 
 
-
 (comment
   (stop-server)
   (start-server)
-
-
-
-  (handle-message {:type "vote" :name "s" :vote 1 :room "abc123"})
-  (handle-message {:type "reset" :room "abc123"})
-
-  (keys(get  @appstate "abc123"))
-
   
   )
 
