@@ -89,7 +89,7 @@
 (defn start-server
   ([] (start-server 8080))
   ([port]
-   (log/info "starting server on port " 8080)
+   (log/info "starting server on port " port)
    (reset! server (run-server app {:port port}))))
 
 (defn -main [& args]
