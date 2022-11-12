@@ -1,12 +1,13 @@
-import * as style from "./Player.module.css";
+export function Player({ name, vote, me }) {
 
-export function Player({ name, vote }) {
-
+  const titleStyle = me ? "card card-bold" : "card";
   return (
-      <div className={style.playercard}>
-      <h6> { name } </h6>
-      <div className={style.card}>
-        { vote || '-' }
+    <div className={titleStyle}>
+      <div className={"card-body"}>
+        <div className={"card-title"}> { name} </div>
+        <p className={"card-text"}>
+          { vote || '-' }
+        </p>
       </div>
     </div>
   );

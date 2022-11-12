@@ -1,18 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Route,
-} from "react-router-dom";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { App } from './App.js';
+import { StartPage } from './StartPage/StartPage';
 
-const name = new URLSearchParams(document.location.search).get("name");
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App roomId="abc123" name={name} />,
+    element: <StartPage />,
+  },
+  {
+    path: "/:roomId",
+    element: <StartPage />,
+  },
+  {
+    path: "/:roomId/:name",
+    element: <App />,
   },
 ]);
 

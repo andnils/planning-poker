@@ -13,13 +13,7 @@
 
 
 
-(defn connect! [channel room name]
-  (log/info "channel open" room)
-  (swap! appstate update room assoc-in [name :channel] channel))
 
-(defn disconnect! [channel room name status]
-  (log/info "Player" name "left room" room ": " status)
-  (swap! appstate update room dissoc name))
 
 
 (defn get-room-state [room]
@@ -37,7 +31,15 @@
       (send! ch (get-room-state room)))))
 
 
+(defn connect! [channel room name]
+  (log/info "channel open" room)
+  (swap! appstate update room assoc-in [name :channel] channel)
+  (notify-clients room))
 
+(defn disconnect! [channel room name status]
+  (log/info "Player" name "left room" room ": " status)
+  (swap! appstate update room dissoc name)
+  (notify-clients room))
 
 
 (defmulti handle-message :type)
@@ -57,9 +59,12 @@
     (notify-clients room)))
 
 (defmethod handle-message :default [msg]
-  )
+  (println (type msg)))
 
-
+(defn receive-ws-msg [msg]
+  (->
+    (json/read-str msg :key-fn keyword)
+    handle-message))
 
 (defn handler [request]
   (let [room (get-in request [:params :room])
@@ -68,7 +73,7 @@
       (connect! channel room name)
       (on-close channel (partial disconnect! channel room name))
       ;; TODO: behvöver hantera olika typer av msg: vote och reset...räcker det?
-      (on-receive channel handle-message))))
+      (on-receive channel receive-ws-msg))))
 
 
 (defroutes app
