@@ -1,18 +1,14 @@
 (ns planning-poker.main
   (:gen-class)
-  (:require [org.httpkit.server :refer [run-server with-channel on-close on-receive send!]]
-            [compojure.route :refer [resources not-found]]
-            [compojure.core :refer [defroutes GET]]
-            [ring.util.response :as resp]
-            [clojure.data.json :as json]
-            [clojure.tools.logging :as log]))
-
+  (:require [clojure.data.json :as json]
+            [clojure.tools.logging :as log]
+            [compojure.core :refer [GET defroutes]]
+            [compojure.route :refer [resources]]
+            [org.httpkit.server :refer [on-close on-receive run-server send! with-channel]]
+            [ring.util.response :as resp]))
 
 
 (def appstate (atom {}))
-
-
-
 
 
 
