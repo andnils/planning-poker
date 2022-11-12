@@ -8,9 +8,7 @@
  
  :paths ["src" "resources"]
 
- :aliases {:test {:extra-paths ["test"]}
-
-           :uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
+ :aliases {:uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
                      :exec-fn hf.depstar/uberjar
                      :exec-args {:aot true
                                  :jar build/app.jar
