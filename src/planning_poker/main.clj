@@ -87,13 +87,14 @@
     (reset! server nil)))
 
 (defn start-server
-  ([] (start-server 8080))
+  ([] (start-server 5000))
   ([port]
    (log/info "starting server on port " port)
    (reset! server (run-server app {:port port}))))
 
 (defn -main [& args]
-  (start-server))
+  (let [port (or (System/getProperty "poker.port") "5000")]
+    (start-server (Integer/parseInt port))))
 
 
 
