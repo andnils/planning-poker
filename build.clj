@@ -16,13 +16,7 @@
   (b/process {:command-args ["/usr/local/bin/npm" "ci"]
               :dir "ui"})
   (b/process {:command-args ["/usr/local/bin/npm" "run" "prod"]
-              :Xdir "/home/andnils/Projects/planning-poker/ui/"
-              :dir (str (b/resolve-path "ui"))
-              :out :write
-              :out-file "out.log"
-              :err :write
-              :err-file "err.log"})
-  )
+              :dir "ui"}))
 
 (defn uber [_]
   (println "build uber")
