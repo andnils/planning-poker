@@ -1,9 +1,0 @@
-
-> planning-poker@1.0.0 prod
-> parcel build
-
-✨ Built in 384ms
-
-dist/index.html                579 B    290ms
-dist/index.de063954.js     196.16 KB    1.97s
-dist/index.11f95d9d.css        267 B     50ms
