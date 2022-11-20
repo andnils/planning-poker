@@ -11,14 +11,11 @@
 (def appstate (atom {}))
 
 
-
 (defn get-room-state [room]
   (json/write-str
    (sort-by :name
             (for [[k v] (get @appstate room)]
               {:name k :vote (:vote v)}))))
-
-
 
 
 (defn notify-clients [room]
@@ -32,6 +29,7 @@
   (swap! appstate update room assoc-in [name :channel] channel)
   (notify-clients room))
 
+
 (defn disconnect! [channel room name status]
   (log/info "Player" name "left room" room ": " status)
   (swap! appstate update room dissoc name)
@@ -39,6 +37,7 @@
 
 
 (defmulti handle-message :type)
+
 
 (defmethod handle-message "reset" [msg]
   (let [room (:room msg)]
@@ -48,19 +47,21 @@
     (notify-clients room)))
 
 
-
 (defmethod handle-message "vote" [msg]
   (let [{:keys [room name vote]} msg]
     (swap! appstate update-in [room name] assoc :vote vote)
     (notify-clients room)))
 
+
 (defmethod handle-message :default [msg]
   (println (type msg)))
+
 
 (defn receive-ws-msg [msg]
   (->
     (json/read-str msg :key-fn keyword)
     handle-message))
+
 
 (defn handler [request]
   (let [room (get-in request [:params :room])
@@ -72,25 +73,28 @@
 
 
 (defroutes app
-  (GET "/api/ok" [] (resp/response "OK"))
   (GET "/api/ws/:room/:name" [] handler)
   (resources "/")
-  (GET "*" req (assoc-in (ring.util.response/resource-response "/public/index.html") [:headers "Content-Type"] "text/html")))
-
+  ;; fallback to serving index.html
+  (GET "*" _ (-> (resp/resource-response "/public/index.html")
+                 (resp/content-type "text/html"))))
 
 
 (defonce server (atom nil))
+
 
 (defn stop-server []
   (when-not (nil? @server)
     (@server :timeout 100)
     (reset! server nil)))
 
+
 (defn start-server
   ([] (start-server 5000))
   ([port]
-   (log/info "starting server on port " port)
+   (log/info "starting server on port" port)
    (reset! server (run-server app {:port port}))))
+
 
 (defn -main [& args]
   (let [port (or (System/getProperty "poker.port") "5000")]
@@ -101,7 +105,6 @@
 (comment
   (stop-server)
   (start-server)
-  
   )
 
 

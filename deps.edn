@@ -8,9 +8,9 @@
  
  :paths ["src" "resources"]
 
- :aliases {:uberjar {:replace-deps {com.github.seancorfield/depstar {:mvn/version "2.1.303"}}
-                     :exec-fn hf.depstar/uberjar
-                     :exec-args {:aot true
-                                 :jar build/app.jar
-                                 :main-class planning-poker.main}}}
+ :aliases {
+           ;; Run with clj -T:build function-in-build
+           :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.5" :git/sha "9c738da"}}
+                   :ns-default build}
+           }
  }
